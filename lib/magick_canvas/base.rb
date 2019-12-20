@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module MagickCanvas
   class Base
     include Magick
-    extend Forwardable
+    extend ::Forwardable
 
     delegate %i[
       app width height columns rows
