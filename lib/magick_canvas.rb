@@ -1,6 +1,5 @@
-require "magick_canvas/version"
+require 'tmpdir'
+require 'rmagick'
 
-module MagickCanvas
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require "magick_canvas/version"
+require "magick_canvas/base"
