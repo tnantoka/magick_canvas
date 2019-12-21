@@ -9,6 +9,7 @@ module MagickCanvas
       app width height columns rows
       number_of_frames background_color directory
     ] => :options_with_defaults
+    delegate %i[write] => :image_list
 
     def initialize
       self.image_list = ImageList.new
@@ -16,13 +17,13 @@ module MagickCanvas
     end
 
     def open
-      write
+      save
       `hash open > /dev/null 2>&1 && open -a #{app} #{path}`
     end
 
-    def write
+    def save
       draw_frames
-      image_list.write(path)
+      write(path)
     end
 
     def radians(degrees)
