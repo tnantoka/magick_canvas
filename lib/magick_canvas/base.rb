@@ -7,23 +7,29 @@ module MagickCanvas
 
     delegate %i[
       app width height columns rows
-      number_of_frames background_color directory
+      number_of_frames background_color
     ] => :options_with_defaults
     delegate %i[write] => :image_list
+
+    class << self
+      def descendants
+        ObjectSpace.each_object(Class).select { |klass| klass < self }
+      end
+    end
 
     def initialize
       self.image_list = ImageList.new
       self.center = Point.new(width * 0.5, height * 0.5)
     end
 
-    def open
-      save
-      `hash open > /dev/null 2>&1 && open -a #{app} #{path}`
+    def open(directory)
+      save(directory)
+      `hash open > /dev/null 2>&1 && open -a #{app} #{path(directory)}`
     end
 
-    def save
+    def save(directory)
       draw_frames
-      write(path)
+      write(path(directory))
     end
 
     def radians(degrees)
@@ -51,8 +57,7 @@ module MagickCanvas
         width: 300,
         height: 300,
         number_of_frames: 1,
-        background_color: 'black',
-        directory: Dir.tmpdir
+        background_color: 'black'
       }
     end
 
@@ -70,7 +75,7 @@ module MagickCanvas
       "magick_canvas.#{extname}"
     end
 
-    def path
+    def path(directory)
       "#{directory}/#{filename}"
     end
 

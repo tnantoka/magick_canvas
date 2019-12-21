@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-require 'tmpdir'
+require 'fileutils'
 require 'forwardable'
+require 'ostruct'
+require 'tmpdir'
 
 require 'rmagick'
+require 'thor'
 
-require 'magick_canvas/version'
 require 'magick_canvas/base'
+require 'magick_canvas/cli'
+require 'magick_canvas/version'

@@ -3,6 +3,7 @@ PATH
   specs:
     magick_canvas (0.1.1)
       rmagick (~> 4.0.0)
+      thor (~> 1.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -44,6 +45,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    thor (1.0.1)
     unicode-display_width (1.6.0)
 
 PLATFORMS
