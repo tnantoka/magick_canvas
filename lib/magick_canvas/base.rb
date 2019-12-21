@@ -22,18 +22,17 @@ module MagickCanvas
       self.center = Point.new(width * 0.5, height * 0.5)
     end
 
-    def open(directory)
-      save(directory)
-      `hash open > /dev/null 2>&1 && open -a #{app} #{path(directory)}`
-    end
-
-    def save(directory)
+    def save(path)
       draw_frames
-      write(path(directory))
+      write(path)
     end
 
     def radians(degrees)
       degrees * Math::PI / 180
+    end
+
+    def extname
+      gif? ? 'gif' : 'png'
     end
 
     private
@@ -68,15 +67,6 @@ module MagickCanvas
 
     def gif?
       number_of_frames > 1
-    end
-
-    def filename
-      extname = gif? ? 'gif' : 'png'
-      "magick_canvas.#{extname}"
-    end
-
-    def path(directory)
-      "#{directory}/#{filename}"
     end
 
     def draw(image, frame_count); end
