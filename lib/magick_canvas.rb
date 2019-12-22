@@ -5,6 +5,7 @@ require 'forwardable'
 require 'ostruct'
 require 'tmpdir'
 
+require 'listen'
 require 'rmagick'
 require 'thor'
 
