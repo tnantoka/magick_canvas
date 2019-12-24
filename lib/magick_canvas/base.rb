@@ -69,10 +69,13 @@ module MagickCanvas
       number_of_frames > 1
     end
 
+    def update(frame_count); end
+
     def draw(image, frame_count); end
 
     def draw_frames
       number_of_frames.times do |i|
+        update(i)
         draw(new_image, i)
       end
     end
