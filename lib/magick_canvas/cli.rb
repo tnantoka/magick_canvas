@@ -74,11 +74,13 @@ module MagickCanvas
       canvas.save(path)
 
       open_in_app(path)
+    rescue => e
+      puts e.message, e.backtrace
     end
 
     def open_in_app(path)
       app = options[:app]
-      `open -a #{app} #{path}` if app
+      `open -g -a #{app} #{path}` if app
     end
   end
 end
