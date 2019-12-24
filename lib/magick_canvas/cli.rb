@@ -74,7 +74,7 @@ module MagickCanvas
       canvas.save(path)
 
       open_in_app(path)
-    rescue => e
+    rescue StandardError => e
       puts e.message, e.backtrace
     end
 
