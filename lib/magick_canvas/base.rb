@@ -7,7 +7,8 @@ module MagickCanvas
 
     delegate %i[
       app width height columns rows
-      number_of_frames background_color
+      number_of_frames frame_steps iterations
+      background_color
     ] => :options_with_defaults
     delegate %i[write] => :image_list
 
@@ -24,6 +25,7 @@ module MagickCanvas
 
     def save(path)
       draw_frames
+      image_list.iterations = iterations.to_i
       write(path)
     end
 
@@ -56,6 +58,8 @@ module MagickCanvas
         width: 300,
         height: 300,
         number_of_frames: 1,
+        frame_steps: 1,
+        iterations: nil,
         background_color: 'black'
       }
     end
@@ -76,7 +80,7 @@ module MagickCanvas
     def draw_frames
       number_of_frames.times do |i|
         update(i)
-        draw(new_image, i)
+        draw(new_image, i) if (i % frame_steps).zero?
       end
     end
   end

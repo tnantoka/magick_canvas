@@ -31,6 +31,7 @@ module MagickCanvas
                   type: :boolean,
                   desc: 'Flag to redraw automatically when SOURCE is changed'
     def draw(source)
+      FileUtils.mkdir_p(options[:directory])
       save(source)
       watch(source)
     end
@@ -53,25 +54,33 @@ module MagickCanvas
     def listener(source)
       Listen.to(
         File.expand_path('../', source),
-        only: /\A#{Regexp.escape(File.basename(source))}\z/
-      ) do
-        canvas_class.class_eval do
-          constants(false).each(&method(:remove_const))
-        end
+        only: /.rb\z/
+      ) do |modified, _added, _removed|
+        puts "modified: #{modified[0]}"
+        reload_canvas(modified[0], source)
         save(source)
       end
     end
 
+    def reload_canvas(modified, source)
+      load modified unless modified.end_with?(source)
+      canvas_class.class_eval do
+        constants(false).each(&method(:remove_const))
+      end
+    end
+
+    def load_canvas(source)
+      load source
+      canvas_class.new
+    end
+
     def save(source)
-      directory = options[:directory]
       basename = File.basename(source, '.*')
 
-      FileUtils.mkdir_p(directory)
-
-      load source
-      canvas = canvas_class.new
-      path = "#{directory}/#{basename}.#{canvas.extname}"
+      canvas = load_canvas(source)
+      path = "#{options[:directory]}/#{basename}.#{canvas.extname}"
       canvas.save(path)
+      puts 'saved'
 
       open_in_app(path)
     rescue StandardError => e
