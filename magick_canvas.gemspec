@@ -26,5 +26,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'listen', '~> 3.2.1'
   spec.add_dependency 'rmagick', '~> 4.0.0'
+  spec.add_dependency 'ruby-progressbar', '~> 1.10.1'
   spec.add_dependency 'thor', '~> 1.0.1'
 end

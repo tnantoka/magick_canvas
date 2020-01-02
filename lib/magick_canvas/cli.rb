@@ -74,13 +74,15 @@ module MagickCanvas
       canvas_class.new
     end
 
-    def save(source)
+    def canvas_path(source, canvas)
       basename = File.basename(source, '.*')
+      "#{options[:directory]}/#{basename}.#{canvas.extname}"
+    end
 
+    def save(source)
       canvas = load_canvas(source)
-      path = "#{options[:directory]}/#{basename}.#{canvas.extname}"
-      canvas.save(path)
-      puts 'saved'
+      path = canvas_path(source, canvas)
+      canvas.save(path) { progressbar(canvas).increment }
 
       open_in_app(path)
     rescue StandardError => e
@@ -90,6 +92,13 @@ module MagickCanvas
     def open_in_app(path)
       app = options[:app]
       `open -g -a #{app} #{path}` if app
+    end
+
+    def progressbar(canvas)
+      @progressbar ||= ProgressBar.create(
+        format: '%t: |%W|',
+        total: canvas.number_of_frames + 1
+      )
     end
   end
 end

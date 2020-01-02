@@ -23,10 +23,11 @@ module MagickCanvas
       self.center = Point.new(width * 0.5, height * 0.5)
     end
 
-    def save(path)
-      draw_frames
+    def save(path, &block)
+      draw_frames(&block)
       image_list.iterations = iterations.to_i
       write(path)
+      yield if block_given?
     end
 
     def radians(degrees)
@@ -81,6 +82,7 @@ module MagickCanvas
       number_of_frames.times do |i|
         update(i)
         draw(new_image, i) if (i % frame_steps).zero?
+        yield(i) if block_given?
       end
     end
   end

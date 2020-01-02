@@ -7,6 +7,7 @@ require 'tmpdir'
 
 require 'listen'
 require 'rmagick'
+require 'ruby-progressbar'
 require 'thor'
 
 require 'magick_canvas/base'
