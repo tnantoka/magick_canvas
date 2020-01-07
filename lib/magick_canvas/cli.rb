@@ -82,7 +82,8 @@ module MagickCanvas
     def save(source)
       canvas = load_canvas(source)
       path = canvas_path(source, canvas)
-      canvas.save(path) { progressbar(canvas).increment }
+      progress = progressbar(canvas)
+      canvas.save(path) { progress.increment }
 
       open_in_app(path)
     rescue StandardError => e
@@ -95,7 +96,7 @@ module MagickCanvas
     end
 
     def progressbar(canvas)
-      @progressbar ||= ProgressBar.create(
+      ProgressBar.create(
         format: '%t: |%W|',
         total: canvas.number_of_frames + 1
       )
