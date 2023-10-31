@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'listen', '~> 3.2.1'
-  spec.add_dependency 'rmagick', '~> 4.0.0'
+  spec.add_dependency 'rmagick', '>= 4.0', '< 5.4'
   spec.add_dependency 'ruby-progressbar', '~> 1.10.1'
   spec.add_dependency 'thor', '~> 1.0.1'
 end
